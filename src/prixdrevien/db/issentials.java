@@ -12,10 +12,10 @@ import prixdrevien.db.maindb;
 
 public class issentials {
     
-    private static String db;
-    public  static Connection conn = null;
-    public static PreparedStatement ps = null;
-    public static ResultSet rs = null;
+    private  String db;
+    public   Connection conn = null;
+    public  PreparedStatement ps = null;
+    public  ResultSet rs = null;
     
     public issentials(String db){
         this.db = db;
@@ -24,7 +24,7 @@ public class issentials {
     }
    
     
-    public static void create(String query){
+    public  void create(String query){
         maindb.openConnection(db);
         try{
             
@@ -41,7 +41,7 @@ public class issentials {
        }
     }
     
-    public static ResultSet get(String query){
+    public  ResultSet get(String query){
         maindb.openConnection(db);
         try{
             
@@ -56,7 +56,7 @@ public class issentials {
         return rs;
     }
     
-    public static  void update(String query){
+    public   void update(String query){
         maindb.openConnection(db);
         try{
             ps = maindb.conn.prepareStatement(query);
@@ -76,7 +76,7 @@ public class issentials {
     
     
     
-    public static int getLastId(String table){
+    public  int getLastId(String table){
         int result = 0;
         try{
 
@@ -86,12 +86,14 @@ public class issentials {
             while(rs.next()){
                 result = rs.getInt("id");
             }
-            
+        
     
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            maindb.closeConnection(conn, ps, rs);
         }
         return result;
     }

@@ -18,10 +18,10 @@ public class Folder {
     public  Connection conn = null;
     public PreparedStatement ps = null;
     public ResultSet rs = null;
-    
+    private issentials iss;
     public Folder(String db){
         this.db = db;
-        
+        iss = new issentials(db);
         
     }
    
@@ -30,12 +30,12 @@ public class Folder {
     
     
     private void createExternalTransportCosts(){
-        issentials.create("INSERT INTO transport_external() "
+        iss.create("INSERT INTO transport_external() "
                     + "VALUES();");
     }
     
     private void createInternalTransportCosts(){
-        issentials.create("INSERT INTO transport_internal() "
+        iss.create("INSERT INTO transport_internal() "
                     + "VALUES();");
     }
     
@@ -43,30 +43,30 @@ public class Folder {
    
     
     private void createTransportCosts(){
-        int internalId = issentials.getLastId("transport_internal");
-        int externalId = issentials.getLastId("transport_external");
+        int internalId = iss.getLastId("transport_internal");
+        int externalId = iss.getLastId("transport_external");
             
-        issentials.create("INSERT INTO transport_costs(external_id, internal_id) "
+        iss.create("INSERT INTO transport_costs(external_id, internal_id) "
                     + "VALUES("+externalId+", "+internalId+");")  ; 
     }
     
     private void createTransitionCosts(){
-        issentials.create("INSERT INTO transition_costs() "
+        iss.create("INSERT INTO transition_costs() "
                     + "VALUES();");
     }
     
     private void createBancCosts(){
-        issentials.create("INSERT INTO banc_costs() "
+        iss.create("INSERT INTO banc_costs() "
                     + "VALUES();");
     }
     
     private void createCustomsCosts(){
-        issentials.create("INSERT INTO customs_costs() "
+        iss.create("INSERT INTO customs_costs() "
                     + "VALUES();");
     }
     
     private void createVariableCosts(){
-        issentials.create("INSERT INTO variable_costs() "
+        iss.create("INSERT INTO variable_costs() "
                     + "VALUES();");
     }
   
@@ -83,11 +83,11 @@ public class Folder {
     public void createFolder(String billNumber, String banc, String port, String date){
         createCosts();
         maindb.closeConnection(maindb.conn, ps, rs);
-        issentials.create("INSERT INTO folders(n_facture, banc, porte, datetim,  "
+        iss.create("INSERT INTO folders(n_facture, banc, porte, datetim,  "
                     + "transport_id, transit_id, banc_id, customs_id, variable_id) "+"VALUES('"+billNumber+"', '"+banc+"', "
-                    + "'"+port+"','"+date+"', '"+issentials.getLastId("transport_costs")+"', '"+issentials.getLastId("transition_costs")+"', '"
-                    +  issentials.getLastId("banc_costs")+"', '"+issentials.getLastId("customs_costs")+"', '"
-                    +  issentials.getLastId("variable_costs")+"');");
+                    + "'"+port+"','"+date+"', '"+iss.getLastId("transport_costs")+"', '"+iss.getLastId("transition_costs")+"', '"
+                    +  iss.getLastId("banc_costs")+"', '"+iss.getLastId("customs_costs")+"', '"
+                    +  iss.getLastId("variable_costs")+"');");
     }
     
  //=============================================================================
@@ -98,19 +98,19 @@ public class Folder {
     
     
     public ResultSet Search( String key, String researched){
-        maindb.openConnection(db);
+        
         switch(key){
-            case "Port":
+            case "Port" :
                 key = "f.porte";
                 break;
             case "N.Facture":
                 key = "f.n_facture";
                 break;
-            case "Banc":
+            case "Banc" : 
                 key = "f.banc";
                 break;
         }
-        return issentials.get("SELECT * FROM folders AS f " +
+        return iss.get("SELECT * FROM folders AS f " +
                     "JOIN transport_costs AS ttc " +
                     "ON ttc.id = f.transport_id " +
                     "JOIN transport_external AS tx " +
@@ -128,14 +128,44 @@ public class Folder {
                     + "WHERE "+key+" LIKE '%"+researched+"%';");
     }
     
+    public ResultSet SearchSp( String key, String researched){
+        switch(key){
+            case "Port" :
+                key = "f.porte";
+                break;
+            case "N.Facture" :
+                key = "f.n_facture";
+                break;
+            case "Banc" :
+                key = "f.banc";
+                break;
+        }
+        return iss.get("SELECT * FROM folders AS f " +
+                    "JOIN transport_costs AS ttc " +
+                    "ON ttc.id = f.transport_id " +
+                    "JOIN transport_external AS tx " +
+                    "ON tx.id = ttc.external_id " +
+                    "JOIN transport_internal AS ti " +
+                    "ON ti.id = ttc.internal_id " +
+                    "JOIN transition_costs AS tc " +
+                    "ON tc.id = f.transit_id " +
+                    "JOIN banc_costs AS bc " +
+                    "ON bc.id = f.banc_id " +
+                    "JOIN customs_costs AS cc " +
+                    "ON cc.id = f.customs_id " +
+                    "JOIN variable_costs AS vc " +
+                    "ON vc.id = f.variable_id "
+                    + "WHERE "+key+" = '"+researched+"';");
+    } 
+    
     public ResultSet Search( String key, int researched){
         switch(key){
-            case "Id":
+            case "Id" :
                 key = "f.id";
                 break;
         }
-        maindb.openConnection(db);
-        return issentials.get("SELECT * FROM folders AS f " +
+        
+        return iss.get("SELECT * FROM folders AS f " +
                     "JOIN transport_costs AS ttc " +
                     "ON ttc.id = f.transport_id " +
                     "JOIN transport_external AS tx " +
@@ -156,7 +186,7 @@ public class Folder {
     
     
     public ResultSet getAll(){
-        return issentials.get("SELECT * FROM folders AS f " +
+        return iss.get("SELECT * FROM folders AS f " +
                     "JOIN transport_costs AS ttc " +
                     "ON ttc.id = f.transport_id " +
                     "JOIN transport_external AS tx " +
@@ -179,7 +209,7 @@ public class Folder {
     public void updateVariableCost(int id, double m, double c, 
             double e, double f, double a, double v){
         double t = m+c+e+f+a+v;
-        issentials.update("UPDATE variable_costs "
+        iss.update("UPDATE variable_costs "
                 + "SET frais_mission = "+m+", "
                 + "clarque = "+c+", "
                 + "servier = "+e+", "
@@ -214,7 +244,7 @@ public class Folder {
         }
         maindb.closeConnection(conn, ps, rs);
         total = variableTotal+bancTotal+customsTotal+transportTotal+transitionTotal;
-        issentials.update("UPDATE folders "
+        iss.update("UPDATE folders "
                 + "SET total = "+total+" "
                 + "WHERE id = "+id+";");
         
@@ -226,7 +256,7 @@ public class Folder {
             double cc){
         double total = rd+sc+dc+dd1+dd2+dd3+cc;
         
-        issentials.update("UPDATE banc_costs "
+        iss.update("UPDATE banc_costs "
                 + "SET reglement_def = "+rd+", "
                 + "frais_swift = "+sc+", "
                 + "frais_disblocage = "+dc+", "
@@ -243,7 +273,7 @@ public class Folder {
             double epa, double sil, double pc, double vc){
         double total = tc+epa+sil+pc+vc;
         
-        issentials.update("UPDATE transition_costs " +
+        iss.update("UPDATE transition_costs " +
                 "SET transition_costs =" +
                 tc+", servier = "+
                 ec+", epa = "+epa+", sil = "+
@@ -258,7 +288,7 @@ public class Folder {
         double total = tcs+tva+dc+qc;
         double CCtotal = total+cxc;
         
-        issentials.update("UPDATE Customs_costs " +
+        iss.update("UPDATE Customs_costs " +
                 "SET tcs =" +
                 tcs+", tva = "+
                 tva+", d_douane = "+dc+", q_douane = "+
@@ -273,7 +303,7 @@ public class Folder {
         double total = eet+set+(tet*taux);
        
         
-        issentials.update("UPDATE transport_external " +
+        iss.update("UPDATE transport_external " +
                 "SET echange =" +
                 eet+", surstarie = "+
                 set+", transport = "+tet+", taux_change = "+
@@ -288,7 +318,7 @@ public class Folder {
         double total = it+ic+iv;
        
         
-        issentials.update("UPDATE transport_internal " +
+        iss.update("UPDATE transport_internal " +
                 "SET transport =" +
                 it+", couler = "+
                 ic+", vehicle_service = "+iv+", total = "+
@@ -327,7 +357,7 @@ public class Folder {
         
         Double total = t1+t2;
         
-        issentials.update("UPDATE transport_costs " +
+        iss.update("UPDATE transport_costs " +
                 "SET external_total =" +
                 t1+", internal_total = "+
                 t2+", total = "+
@@ -359,8 +389,22 @@ public class Folder {
                 result.add(rs.getInt("ttc.external_id"));
                 result.add(rs.getInt("ttc.internal_id"));
             }
-        }catch(SQLException ex){
-            ex.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+           maindb.closeConnection(maindb.conn, ps, rs);
+       }
+        return result;
+    }
+    
+    
+    public int getFolderId(String n_facture){
+        ResultSet rs = SearchSp("N.Facture",n_facture);
+        int result = -1;
+        try{
+            while(rs.next()){
+                result = rs.getInt("f.id");
+            }
         }catch(Exception e){
             e.printStackTrace();
         }finally{

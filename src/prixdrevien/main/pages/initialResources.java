@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import prixdrevien.db.components.IR;
 import prixdrevien.db.maindb;
 
 public class initialResources extends javax.swing.JPanel {
-    Folder folder = new Folder("admin");
+    Folder folder = new Folder("test");
+    IR ir = new IR("test");
+    
     int selectedRow;
     public initialResources() {
         initComponents();
@@ -21,27 +25,87 @@ public class initialResources extends javax.swing.JPanel {
     }
 
     private void myInit(){
-        resizeTable(foldersTable,11,1490);
+        resizeTable(foldersTable,11,1490,new int[][] {
+            new int[]{0,50}
+        });
+        
+        resizeTable(irTable,11,1490,new int[][]{
+            new int[]{0,50},
+            new int[]{7,50},
+            new int[]{8,100},
+            new int[]{9,100}
+        });
         
         renderFoldersTable(folder.getAll());
-        
+        renderIRTable(ir.getAll());
        
     }
     
-    private void resizeTable(javax.swing.JTable table, int columnNumber, int width){
+    private void resizeTable(javax.swing.JTable table, int columnNumber, int width, int[][] min){
         TableColumn column = null;
-        for (int i = 0; i < columnNumber; i++) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < min.length; i++) {
+            column = table.getColumnModel().getColumn(min[i][0]);
+            column.setMaxWidth(min[i][1]); 
+            set.add(min[i][0]); 
+        }
+        for(int i = 0; i<columnNumber;i++){
             column = table.getColumnModel().getColumn(i);
-            if (i == 0) {
-                column.setMaxWidth(50); 
-            } else {
-                column.setMaxWidth((width-50)/(columnNumber-1));
+            if(!set.contains(i)){
+                column.setMaxWidth(( width - (min.length + 1) * 50) / (columnNumber - (min.length + 1) )); 
             }
-          
         }
     }
     
-    
+    private void renderIRTable(ResultSet rs){
+       String ref;
+       int id;
+       double total;
+       String date;
+       String des;
+       double sq;
+       double qos;
+       double q;
+       double pu;
+       double taux;
+       String unit;
+       double puda;
+       
+       DefaultTableModel model =   (DefaultTableModel) irTable.getModel();
+       model.setNumRows(0);
+       
+       try{
+           while(rs.next()){
+               
+               id = rs.getInt("ir.id");
+               ref = rs.getString("ir.referencee");
+               date = rs.getString("ir.datetim");
+               total = rs.getDouble("ir.total");
+               des = rs.getString("ir.descriptionne");
+               sq = rs.getDouble("ir.s_amount");
+               qos = rs.getDouble("ir.amount_on_s");
+               q = rs.getDouble("ir.amount");
+               pu = rs.getDouble("ir.unit_price");
+               taux = rs.getDouble("ir.taux");
+               unit = rs.getString("ir.unit");
+               puda = rs.getDouble("ir.unit_priceda");
+               
+              
+
+               String[] row = { String.valueOf(id), ref, des, date, String.valueOf(sq)
+                       , String.valueOf(qos), String.valueOf(q), unit, String.valueOf(pu) ,String.valueOf(puda) ,String.valueOf(total)};
+               model.addRow(row);
+              
+           }
+       }catch(SQLException ex){
+            ex.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+           maindb.closeConnection(rs);
+       }
+       irTable.setModel(model);
+    }
     private void renderFoldersTable(ResultSet rs){
         String billNumber;
        int id;
@@ -81,7 +145,9 @@ public class initialResources extends javax.swing.JPanel {
             ex.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }finally{
+           maindb.closeConnection(rs);
+       }
        foldersTable.setModel(model);
     }
     
@@ -107,6 +173,7 @@ public class initialResources extends javax.swing.JPanel {
                 totalVariable = rs.getDouble("vc.total");
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -146,6 +213,7 @@ public class initialResources extends javax.swing.JPanel {
                 total = rs.getDouble("bc.total");
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -183,6 +251,7 @@ public class initialResources extends javax.swing.JPanel {
                 total = rs.getDouble("tc.total");
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -219,6 +288,7 @@ public class initialResources extends javax.swing.JPanel {
                 CCtotal = rs.getDouble("cc.ctotal");
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -253,6 +323,7 @@ public class initialResources extends javax.swing.JPanel {
                 
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -283,6 +354,7 @@ public class initialResources extends javax.swing.JPanel {
                 
                 
             }
+            maindb.closeConnection(rs);
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception e){
@@ -304,6 +376,16 @@ public class initialResources extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        irFoldersDialog = new javax.swing.JDialog();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        irSearchField1 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        irFoldersTable = new javax.swing.JTable();
         addFolderDialog = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         jLabel215 = new javax.swing.JLabel();
@@ -324,18 +406,26 @@ public class initialResources extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
-        jTextField36 = new javax.swing.JTextField();
+        addIRPriceField = new javax.swing.JTextField();
         kButton10 = new com.k33ptoo.components.KButton();
-        jTextField44 = new javax.swing.JTextField();
-        jTextField45 = new javax.swing.JTextField();
-        jTextField46 = new javax.swing.JTextField();
-        jTextField47 = new javax.swing.JTextField();
+        addIRRefField = new javax.swing.JTextField();
+        addIRSQField = new javax.swing.JTextField();
+        addIRFolderField = new javax.swing.JTextField();
+        addIRQOSField = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        jTextField48 = new javax.swing.JTextField();
+        addIRQField = new javax.swing.JTextField();
         kButton7 = new com.k33ptoo.components.KButton();
         jSeparator4 = new javax.swing.JSeparator();
-        jTextField49 = new javax.swing.JTextField();
+        addIRTauxField = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        addIRDesField = new javax.swing.JTextArea();
+        jLabel34 = new javax.swing.JLabel();
+        addIRErrorLabel = new javax.swing.JLabel();
+        addIRuntCombo = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -343,17 +433,14 @@ public class initialResources extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        irSearchCombo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        initialeResourcesSearch = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jSeparator2 = new javax.swing.JSeparator();
+        irSearchField = new javax.swing.JTextField();
         kButton2 = new com.k33ptoo.components.KButton();
+        jSeparator5 = new javax.swing.JSeparator();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel10 = new javax.swing.JPanel();
+        irTable = new javax.swing.JTable();
         jPanel11 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -528,6 +615,150 @@ public class initialResources extends javax.swing.JPanel {
         jLabel143 = new javax.swing.JLabel();
         jLabel144 = new javax.swing.JLabel();
 
+        irFoldersDialog.setPreferredSize(new java.awt.Dimension(600, 600));
+        irFoldersDialog.setSize(new java.awt.Dimension(600, 620));
+
+        jPanel9.setBackground(new java.awt.Color(27, 32, 44));
+
+        jPanel10.setBackground(new java.awt.Color(27, 32, 44));
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Les Dossiers Du :");
+
+        jPanel12.setBackground(new java.awt.Color(27, 32, 44));
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 32, Short.MAX_VALUE)
+        );
+
+        jPanel13.setBackground(new java.awt.Color(27, 32, 44));
+
+        irSearchField1.setForeground(new java.awt.Color(153, 153, 153));
+        irSearchField1.setPreferredSize(new java.awt.Dimension(250, 22));
+        irSearchField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                irSearchField1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                irSearchField1FocusLost(evt);
+            }
+        });
+        irSearchField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irSearchField1ActionPerformed(evt);
+            }
+        });
+        irSearchField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                irSearchField1KeyReleased(evt);
+            }
+        });
+
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prixdrevien/images/211818_search_icon(6).png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel13Layout.createSequentialGroup()
+                    .addGap(99, 99, 99)
+                    .addComponent(irSearchField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(63, 63, 63)))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addContainerGap())
+            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel13Layout.createSequentialGroup()
+                    .addGap(4, 4, 4)
+                    .addComponent(irSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        irFoldersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "id", "N.Facture", "Date", "Monton DA"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(irFoldersTable);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout irFoldersDialogLayout = new javax.swing.GroupLayout(irFoldersDialog.getContentPane());
+        irFoldersDialog.getContentPane().setLayout(irFoldersDialogLayout);
+        irFoldersDialogLayout.setHorizontalGroup(
+            irFoldersDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        irFoldersDialogLayout.setVerticalGroup(
+            irFoldersDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         addFolderDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addFolderDialog.setTitle("Ajouter un Dossier");
         addFolderDialog.setAlwaysOnTop(true);
@@ -682,8 +913,9 @@ public class initialResources extends javax.swing.JPanel {
         );
 
         addIRDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addIRDialog.setModal(true);
-        addIRDialog.setSize(new java.awt.Dimension(600, 800));
+        addIRDialog.setAlwaysOnTop(true);
+        addIRDialog.setPreferredSize(new java.awt.Dimension(1000, 640));
+        addIRDialog.setSize(new java.awt.Dimension(1000, 670));
         addIRDialog.setType(java.awt.Window.Type.POPUP);
 
         jPanel29.setBackground(new java.awt.Color(27, 32, 44));
@@ -706,8 +938,7 @@ public class initialResources extends javax.swing.JPanel {
 
         jLabel31.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("Dossier N.Facture:");
+        jLabel31.setText("Designation:");
 
         jLabel53.setBackground(new java.awt.Color(27, 32, 44));
         jLabel53.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
@@ -720,11 +951,10 @@ public class initialResources extends javax.swing.JPanel {
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel54.setText("Reference:");
 
-        jTextField36.setEnabled(false);
-        jTextField36.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField36.addActionListener(new java.awt.event.ActionListener() {
+        addIRPriceField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRPriceField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField36ActionPerformed(evt);
+                addIRPriceFieldActionPerformed(evt);
             }
         });
 
@@ -733,36 +963,47 @@ public class initialResources extends javax.swing.JPanel {
         kButton10.setkHoverEndColor(new java.awt.Color(192, 192, 192));
         kButton10.setkHoverForeGround(new java.awt.Color(27, 32, 44));
         kButton10.setkHoverStartColor(new java.awt.Color(0, 153, 153));
-
-        jTextField44.setEnabled(false);
-        jTextField44.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField44.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField44ActionPerformed(evt);
+        kButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kButton10MouseClicked(evt);
             }
         });
 
-        jTextField45.setEnabled(false);
-        jTextField45.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField45.addActionListener(new java.awt.event.ActionListener() {
+        addIRRefField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRRefField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField45ActionPerformed(evt);
+                addIRRefFieldActionPerformed(evt);
             }
         });
 
-        jTextField46.setEnabled(false);
-        jTextField46.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField46.addActionListener(new java.awt.event.ActionListener() {
+        addIRSQField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRSQField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField46ActionPerformed(evt);
+                addIRSQFieldActionPerformed(evt);
+            }
+        });
+        addIRSQField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addIRSQFieldKeyReleased(evt);
             }
         });
 
-        jTextField47.setEnabled(false);
-        jTextField47.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField47.addActionListener(new java.awt.event.ActionListener() {
+        addIRFolderField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRFolderField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField47ActionPerformed(evt);
+                addIRFolderFieldActionPerformed(evt);
+            }
+        });
+
+        addIRQOSField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRQOSField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addIRQOSFieldActionPerformed(evt);
+            }
+        });
+        addIRQOSField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addIRQOSFieldKeyReleased(evt);
             }
         });
 
@@ -771,11 +1012,11 @@ public class initialResources extends javax.swing.JPanel {
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel32.setText("Quantité Total:");
 
-        jTextField48.setEnabled(false);
-        jTextField48.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField48.addActionListener(new java.awt.event.ActionListener() {
+        addIRQField.setEnabled(false);
+        addIRQField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRQField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField48ActionPerformed(evt);
+                addIRQFieldActionPerformed(evt);
             }
         });
 
@@ -797,11 +1038,10 @@ public class initialResources extends javax.swing.JPanel {
             }
         });
 
-        jTextField49.setEnabled(false);
-        jTextField49.setPreferredSize(new java.awt.Dimension(150, 35));
-        jTextField49.addActionListener(new java.awt.event.ActionListener() {
+        addIRTauxField.setPreferredSize(new java.awt.Dimension(150, 35));
+        addIRTauxField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField49ActionPerformed(evt);
+                addIRTauxFieldActionPerformed(evt);
             }
         });
 
@@ -810,44 +1050,85 @@ public class initialResources extends javax.swing.JPanel {
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setText("Taux De Change:");
 
+        addIRDesField.setColumns(20);
+        addIRDesField.setRows(5);
+        jScrollPane2.setViewportView(addIRDesField);
+
+        jLabel34.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel34.setText("Dossier N.Facture:");
+
+        addIRErrorLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        addIRErrorLabel.setForeground(new java.awt.Color(255, 0, 0));
+        addIRErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        addIRuntCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "piece", "g", "kg", "litre" }));
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Unit:");
+
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel29Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 50, Short.MAX_VALUE))
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addIRErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel54, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField44, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField45, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField49, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addIRQField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(addIRRefField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addIRPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(addIRSQField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addIRQOSField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(kButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(kButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2)
+                                    .addGroup(jPanel29Layout.createSequentialGroup()
+                                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(addIRuntCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE))
+                                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(addIRFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(48, 48, 48))))
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addIRTauxField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,52 +1137,81 @@ public class initialResources extends javax.swing.JPanel {
                 .addComponent(jLabel53)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addIRRefField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(47, 47, 47)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addIRPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addIRSQField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addIRQOSField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addComponent(addIRQField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(kButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(kButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addIRTauxField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel29Layout.createSequentialGroup()
                         .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(jTextField49, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kButton10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
+                            .addComponent(addIRFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addIRuntCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(163, 163, 163)))
+                .addComponent(addIRErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout addIRDialogLayout = new javax.swing.GroupLayout(addIRDialog.getContentPane());
         addIRDialog.getContentPane().setLayout(addIRDialogLayout);
         addIRDialogLayout.setHorizontalGroup(
             addIRDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(jPanel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         addIRDialogLayout.setVerticalGroup(
             addIRDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
         );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         setBackground(new java.awt.Color(248, 248, 249));
         setMinimumSize(new java.awt.Dimension(1500, 900));
@@ -946,50 +1256,39 @@ public class initialResources extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(27, 32, 44));
         jLabel2.setText("recherché par:");
 
-        jComboBox1.setForeground(new java.awt.Color(27, 32, 44));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nom", "id" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(100, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        irSearchCombo.setForeground(new java.awt.Color(27, 32, 44));
+        irSearchCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Réference", "Id", "Unité" }));
+        irSearchCombo.setPreferredSize(new java.awt.Dimension(100, 22));
+        irSearchCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                irSearchComboActionPerformed(evt);
             }
         });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prixdrevien/images/211818_search_icon(6).png"))); // NOI18N
 
-        initialeResourcesSearch.setForeground(new java.awt.Color(153, 153, 153));
-        initialeResourcesSearch.setText("recherché par nom...");
-        initialeResourcesSearch.setPreferredSize(new java.awt.Dimension(250, 22));
-        initialeResourcesSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+        irSearchField.setForeground(new java.awt.Color(153, 153, 153));
+        irSearchField.setText("recherché par "+ irSearchCombo.getSelectedItem().toString()+"...");
+        irSearchField.setPreferredSize(new java.awt.Dimension(250, 22));
+        irSearchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                initialeResourcesSearchFocusGained(evt);
+                irSearchFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                initialeResourcesSearchFocusLost(evt);
+                irSearchFieldFocusLost(evt);
             }
         });
-        initialeResourcesSearch.addActionListener(new java.awt.event.ActionListener() {
+        irSearchField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                initialeResourcesSearchActionPerformed(evt);
+                irSearchFieldActionPerformed(evt);
             }
         });
-
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(27, 32, 44));
-        jLabel4.setText("Sort by:");
-
-        jComboBox2.setForeground(new java.awt.Color(27, 32, 44));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nom", "Id" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(100, 22));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+        irSearchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                irSearchFieldKeyReleased(evt);
             }
         });
-
-        jSeparator2.setBackground(new java.awt.Color(248, 248, 249));
-        jSeparator2.setPreferredSize(new java.awt.Dimension(1100, 3));
 
         kButton2.setForeground(new java.awt.Color(27, 32, 44));
         kButton2.setText("Ajouter ");
@@ -1013,72 +1312,72 @@ public class initialResources extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(209, 209, 209)
+                .addGap(106, 106, 106)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(124, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 108, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(initialeResourcesSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(151, 151, 151)
-                        .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(288, 288, 288))))
+                .addComponent(irSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(186, 186, 186)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(irSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(195, 195, 195)
+                .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(323, 323, 323))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 1400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 211, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(initialeResourcesSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2))
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(irSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel3))
+                        .addGap(5, 5, 5))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(irSearchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        irTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Reference", "Sac Quantité", "Quantité", "Prix Unitaire"
+                "id", "Reference", "Designation", "Date", "Couler Quantité", "Quantité dans Couler", "Quantité", "Unité", "P.U Dev", "P.U DA", "Monton DA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setMaximumSize(new java.awt.Dimension(1500, 900));
-        jTable1.setMinimumSize(new java.awt.Dimension(1500, 900));
-        jTable1.setPreferredSize(new java.awt.Dimension(1500, 900));
-        jTable1.setShowGrid(true);
-        jTable1.getTableHeader().setResizingAllowed(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        irTable.setMaximumSize(new java.awt.Dimension(1500, 900));
+        irTable.setMinimumSize(new java.awt.Dimension(1500, 900));
+        irTable.setPreferredSize(new java.awt.Dimension(1500, 900));
+        irTable.setShowGrid(true);
+        irTable.getTableHeader().setResizingAllowed(false);
+        irTable.getTableHeader().setReorderingAllowed(false);
+        irTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                irTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(irTable);
 
         jPanel7.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1500, 733));
 
@@ -1099,21 +1398,6 @@ public class initialResources extends javax.swing.JPanel {
         );
 
         contentTabbedPane.addTab("Tableau", jPanel3);
-
-        jPanel10.setBackground(new java.awt.Color(248, 248, 249));
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1661, Short.MAX_VALUE)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 797, Short.MAX_VALUE)
-        );
-
-        contentTabbedPane.addTab("Ajouter", jPanel10);
 
         jPanel11.setBackground(new java.awt.Color(248, 248, 249));
 
@@ -1257,7 +1541,7 @@ public class initialResources extends javax.swing.JPanel {
             .addGroup(jPanel39Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addComponent(jLabel191, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(234, 234, 234)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(foldersSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1329,7 +1613,7 @@ public class initialResources extends javax.swing.JPanel {
         );
         jPanel40Layout.setVerticalGroup(
             jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
@@ -3083,201 +3367,37 @@ public class initialResources extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void initialeResourcesSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_initialeResourcesSearchFocusGained
-        initialeResourcesSearch.setText("");
-    }//GEN-LAST:event_initialeResourcesSearchFocusGained
+    private void irSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_irSearchFieldFocusGained
+        irSearchField.setText("");
+        irSearchField.setForeground(new java.awt.Color(27,32,44));
+    }//GEN-LAST:event_irSearchFieldFocusGained
 
-    private void initialeResourcesSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initialeResourcesSearchActionPerformed
+    private void irSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irSearchFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_initialeResourcesSearchActionPerformed
+    }//GEN-LAST:event_irSearchFieldActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void irSearchComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irSearchComboActionPerformed
+        irSearchField.setText("recherché par "+ irSearchCombo.getSelectedItem().toString()+"...");
+    }//GEN-LAST:event_irSearchComboActionPerformed
+
+    private void irSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_irSearchFieldFocusLost
+        if(irSearchField.getText().equals("")){
+            irSearchField.setText("recherché par "+irSearchCombo.getSelectedItem().toString()+"...");
+            irSearchField.setForeground(new java.awt.Color(153,153,153));
+        }
+    }//GEN-LAST:event_irSearchFieldFocusLost
+
+    private void addIRPriceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRPriceFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_addIRPriceFieldActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void addIRRefFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRRefFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_addIRRefFieldActionPerformed
 
-    private void initialeResourcesSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_initialeResourcesSearchFocusLost
-        initialeResourcesSearch.setText("recherché par nom...");
-    }//GEN-LAST:event_initialeResourcesSearchFocusLost
-
-    private void jTextField36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField36ActionPerformed
+    private void addIRSQFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRSQFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField36ActionPerformed
-
-    private void jTextField44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField44ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField44ActionPerformed
-
-    private void jTextField45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField45ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField45ActionPerformed
-
-    private void CCBancFieldjTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CCBancFieldjTextField15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CCBancFieldjTextField15ActionPerformed
-
-    private void DD3BancFieldjTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD3BancFieldjTextField14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DD3BancFieldjTextField14ActionPerformed
-
-    private void DD2BancFieldjTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD2BancFieldjTextField13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DD2BancFieldjTextField13ActionPerformed
-
-    private void DCBancFieldjTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DCBancFieldjTextField10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DCBancFieldjTextField10ActionPerformed
-
-    private void DD1BancFieldjTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD1BancFieldjTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DD1BancFieldjTextField8ActionPerformed
-
-    private void SCBancFieldjTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SCBancFieldjTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SCBancFieldjTextField4ActionPerformed
-
-    private void RDBancFieldjTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDBancFieldjTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RDBancFieldjTextField1ActionPerformed
-
-    private void totalBancFieldjTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalBancFieldjTextField16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalBancFieldjTextField16ActionPerformed
-
-    private void variableCostVariableFieldjTextField25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_variableCostVariableFieldjTextField25ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_variableCostVariableFieldjTextField25ActionPerformed
-
-    private void actsCostVariableFieldjTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actsCostVariableFieldjTextField26ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actsCostVariableFieldjTextField26ActionPerformed
-
-    private void employeeCostVariableFieldjTextField27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeCostVariableFieldjTextField27ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_employeeCostVariableFieldjTextField27ActionPerformed
-
-    private void foodCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodCostVariableFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_foodCostVariableFieldActionPerformed
-
-    private void clarqueCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clarqueCostVariableFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clarqueCostVariableFieldActionPerformed
-
-    private void MissionCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MissionCostVariableFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MissionCostVariableFieldActionPerformed
-
-    private void totalVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalVariableFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalVariableFieldActionPerformed
-
-    private void kButton13kButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton13kButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kButton13kButton4ActionPerformed
-
-    private void VCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VCTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VCTransitionFieldActionPerformed
-
-    private void PCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PCTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PCTransitionFieldActionPerformed
-
-    private void EPACTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EPACTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EPACTransitionFieldActionPerformed
-
-    private void SILCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SILCTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SILCTransitionFieldActionPerformed
-
-    private void ECTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ECTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ECTransitionFieldActionPerformed
-
-    private void TCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TCTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TCTransitionFieldActionPerformed
-
-    private void totalTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTransitionFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalTransitionFieldActionPerformed
-
-    private void kButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kButton15ActionPerformed
-
-    private void DCustomFieldjTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DCustomFieldjTextField11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DCustomFieldjTextField11ActionPerformed
-
-    private void TVACustomFieldjTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TVACustomFieldjTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TVACustomFieldjTextField9ActionPerformed
-
-    private void TCSCustomFieldjTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TCSCustomFieldjTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TCSCustomFieldjTextField5ActionPerformed
-
-    private void QCustomFieldjTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QCustomFieldjTextField12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_QCustomFieldjTextField12ActionPerformed
-
-    private void totalCustomFieldjTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCustomFieldjTextField17ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalCustomFieldjTextField17ActionPerformed
-
-    private void CXCustomfieldjTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CXCustomfieldjTextField18ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CXCustomfieldjTextField18ActionPerformed
-
-    private void totalCXCustomFieldjTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCXCustomFieldjTextField19ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalCXCustomFieldjTextField19ActionPerformed
-
-    private void EETrasportFieldjTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EETrasportFieldjTextField20ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EETrasportFieldjTextField20ActionPerformed
-
-    private void SETransportFieldjTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SETransportFieldjTextField21ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SETransportFieldjTextField21ActionPerformed
-
-    private void totalETransportFieldjTextField22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalETransportFieldjTextField22ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalETransportFieldjTextField22ActionPerformed
-
-    private void TETransportFieldjTextField23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TETransportFieldjTextField23ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TETransportFieldjTextField23ActionPerformed
-
-    private void TauxETransportFieldjTextField24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TauxETransportFieldjTextField24ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TauxETransportFieldjTextField24ActionPerformed
-
-    private void ITTransportFieldjTextField28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ITTransportFieldjTextField28ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ITTransportFieldjTextField28ActionPerformed
-
-    private void ICTransportFieldjTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ICTransportFieldjTextField29ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ICTransportFieldjTextField29ActionPerformed
-
-    private void totalITransportFieldjTextField30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalITransportFieldjTextField30ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalITransportFieldjTextField30ActionPerformed
-
-    private void IVTransportFieldjTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IVTransportFieldjTextField31ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IVTransportFieldjTextField31ActionPerformed
-
-    private void kButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton1MouseClicked
-        addFolderDialog.setVisible(true);
-    }//GEN-LAST:event_kButton1MouseClicked
+    }//GEN-LAST:event_addIRSQFieldActionPerformed
 
     private void billNumberFieldjTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billNumberFieldjTextField1ActionPerformed
         // TODO add your handling code here:
@@ -3321,79 +3441,289 @@ public class initialResources extends javax.swing.JPanel {
     }//GEN-LAST:event_kButton5MouseClicked
     
     
-    private void foldersSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_foldersSearchFieldFocusGained
-        foldersSearchField.setText("");
-        foldersSearchField.setForeground(new java.awt.Color(27,32,44));
-    }//GEN-LAST:event_foldersSearchFieldFocusGained
+    private void kButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton2MouseClicked
+        addIRDialog.setVisible(true);
+    }//GEN-LAST:event_kButton2MouseClicked
 
-    private void foldersSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_foldersSearchFieldFocusLost
-        if(foldersSearchField.getText().equals("")){
-            foldersSearchField.setText("recherché par "+foldersSearchCombo.getSelectedItem().toString()+"...");
-            foldersSearchField.setForeground(new java.awt.Color(153,153,153));
-        }
-    }//GEN-LAST:event_foldersSearchFieldFocusLost
-
-    private void foldersSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foldersSearchFieldActionPerformed
+    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_foldersSearchFieldActionPerformed
+    }//GEN-LAST:event_kButton2ActionPerformed
 
-    private void foldersSearchComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foldersSearchComboActionPerformed
-        foldersSearchField.setText("recherché par "+ foldersSearchCombo.getSelectedItem().toString()+"...");
-    }//GEN-LAST:event_foldersSearchComboActionPerformed
-
-    private void foldersSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_foldersSearchFieldKeyReleased
-        if(foldersSearchField.getText().equals("")){
-            renderFoldersTable(folder.getAll());
-        }else if(foldersSearchCombo.getSelectedItem().equals("id") && !foldersSearchField.getText().equals("")){
-            int researched = Integer.parseInt(foldersSearchField.getText());
-            renderFoldersTable(folder.Search("Id", researched));
-        }else{
-            String researched = foldersSearchField.getText();
-            String key = foldersSearchCombo.getSelectedItem().toString();
-            renderFoldersTable(folder.Search(key, researched));
-        }
-    }//GEN-LAST:event_foldersSearchFieldKeyReleased
-
-    private void foldersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foldersTableMouseClicked
-        selectedRow = Integer.parseInt(foldersTable.getValueAt(foldersTable.getSelectedRow(),0).toString());
-        System.out.println(selectedRow);
-        renderVariableCosts(selectedRow);
-        renderBancCosts(selectedRow);
-        renderTransitionCosts(selectedRow);
-        renderCustomCosts(selectedRow);
-        renderExternalTransport(selectedRow);
-        renderInternalTransport(selectedRow);
-        
-        
-    }//GEN-LAST:event_foldersTableMouseClicked
-
-    private void variableCostSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusGained
-        variableCostSearchField.setText("");
-        variableCostSearchField.setForeground(new java.awt.Color(27,32,44));
-    }//GEN-LAST:event_variableCostSearchFieldFocusGained
-
-    private void variableCostSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusLost
-        if(variableCostSearchField.getText().equals("")){
-            variableCostSearchField.setText("recherché par N.Facture...");
-            variableCostSearchField.setForeground(new java.awt.Color(153,153,153));
-        }
-    }//GEN-LAST:event_variableCostSearchFieldFocusLost
-
-    private void variableCostSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_variableCostSearchFieldActionPerformed
+    private void addIRFolderFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRFolderFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_variableCostSearchFieldActionPerformed
+    }//GEN-LAST:event_addIRFolderFieldActionPerformed
 
-    private void variableCostSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_variableCostSearchFieldKeyReleased
+    private void addIRQOSFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRQOSFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addIRQOSFieldActionPerformed
+
+    private void addIRQFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRQFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addIRQFieldActionPerformed
+
+    private void kButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton7MouseClicked
+        addIRPriceField.setText("");
+        addIRQField.setText("");
+        addIRQOSField.setText("");
+        addIRSQField.setText("");
+        addIRTauxField.setText("");
+        addIRFolderField.setText("");
+        addIRRefField.setText("");
+        addIRErrorLabel.setText("");
+        addIRDialog.dispose();
+    }//GEN-LAST:event_kButton7MouseClicked
+
+    private void kButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kButton7ActionPerformed
+
+    private void addIRTauxFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIRTauxFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addIRTauxFieldActionPerformed
+
+    private void kButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton10MouseClicked
+        String airf = addIRFolderField.getText();
+        String airref = addIRRefField.getText();
+        String airdes = addIRDesField.getText();
+        String unit = addIRuntCombo.getSelectedItem().toString();
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter dateFormater = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String formattedDate = date.format(dateFormater);
         
-    }//GEN-LAST:event_variableCostSearchFieldKeyReleased
+        if(!addIRPriceField.getText().equals("") && !addIRQField.getText().equals("") &&
+        !addIRQOSField.getText().equals("") && !addIRSQField.getText().equals("") &&
+        !addIRTauxField.getText().equals("") && !airf.equals("") && !airref.equals("")){
+            try{
+                double airprice = Double.parseDouble(addIRPriceField.getText());
+                
+                double airqos = Double.parseDouble(addIRQOSField.getText());
+                double airsq = Double.parseDouble(addIRSQField.getText());
+                double airtaux = Double.parseDouble(addIRTauxField.getText());
+                
+                int id = folder.getFolderId(airf);
+                System.out.println(id);
+                if(id > -1){
+                    
+                    addIRPriceField.setText("");
+                    addIRQField.setText("");
+                    addIRQOSField.setText("");
+                    addIRSQField.setText("");
+                    addIRTauxField.setText("");
+                    addIRFolderField.setText("");
+                    addIRRefField.setText("");
+                    addIRErrorLabel.setText("");
+                    
+                    ir.createIR(id, airref, airdes, formattedDate, unit, airsq, airqos,  airprice, airtaux);
+                    renderIRTable(ir.getAll());
+                    addIRDialog.dispose();
+                }else{
+                    addIRErrorLabel.setText("Il n'y a pas de Dossier avec ce Numéro de Facture");
+                }
+            }catch(java.lang.NumberFormatException nfe){
+                addIRErrorLabel.setText("Entrez une Valeur Valide S'il Vous Plait");
+            }
+        }
+        else{
+            addIRErrorLabel.setText("Entrez Tout Les Informations S'il Vous Plait");
+        }
+    }//GEN-LAST:event_kButton10MouseClicked
+
+    private void addIRQOSFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addIRQOSFieldKeyReleased
+        if(!addIRSQField.getText().equals("")){
+            double q = Double.parseDouble(addIRQOSField.getText()) * Double.parseDouble(addIRSQField.getText());
+            addIRQField.setText(String.valueOf(q));
+        }
+    }//GEN-LAST:event_addIRQOSFieldKeyReleased
+
+    private void addIRSQFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addIRSQFieldKeyReleased
+        if(!addIRQOSField.getText().equals("")){
+            double q = Double.parseDouble(addIRQOSField.getText()) * Double.parseDouble(addIRSQField.getText());
+            addIRQField.setText(String.valueOf(q));
+        }
+    }//GEN-LAST:event_addIRSQFieldKeyReleased
+
+    private void kButton26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton26MouseClicked
+        if(ITTransportField.isEnabled()){
+            int n = JOptionPane.showConfirmDialog(
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+            if(n == 0){
+                Double it = Double.valueOf(ITTransportField.getText());
+                Double ic = Double.valueOf(ICTransportField.getText());
+                Double iv = Double.valueOf(IVTransportField.getText());
+
+                int cost_id = folder.getCostId(selectedRow).get(6);
+                folder.updateITransport(cost_id, it, ic, iv);
+                folder.updateTransport(selectedRow);
+                folder.updateTotal(selectedRow);
+                renderInternalTransport(selectedRow);
+                renderFoldersTable(folder.getAll());
+            }
+
+            ITTransportField.setEnabled(false);
+            ICTransportField.setEnabled(false);
+            IVTransportField.setEnabled(false);
+
+        }
+    }//GEN-LAST:event_kButton26MouseClicked
+
+    private void kButton19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton19MouseClicked
+        ITTransportField.setEnabled(true);
+        ICTransportField.setEnabled(true);
+        IVTransportField.setEnabled(true);
+
+    }//GEN-LAST:event_kButton19MouseClicked
+
+    private void IVTransportFieldjTextField31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IVTransportFieldjTextField31ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IVTransportFieldjTextField31ActionPerformed
+
+    private void totalITransportFieldjTextField30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalITransportFieldjTextField30ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalITransportFieldjTextField30ActionPerformed
+
+    private void ICTransportFieldjTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ICTransportFieldjTextField29ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ICTransportFieldjTextField29ActionPerformed
+
+    private void ITTransportFieldjTextField28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ITTransportFieldjTextField28ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ITTransportFieldjTextField28ActionPerformed
+
+    private void TauxETransportFieldjTextField24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TauxETransportFieldjTextField24ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TauxETransportFieldjTextField24ActionPerformed
+
+    private void kButton18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton18MouseClicked
+        if(EETrasportField.isEnabled()){
+            int n = JOptionPane.showConfirmDialog(
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+            if(n == 0){
+                Double eet = Double.valueOf(EETrasportField.getText());
+                Double set = Double.valueOf(SETransportField.getText());
+                Double tet = Double.valueOf(TETransportField.getText());
+                Double taux = Double.valueOf(TauxETransportField.getText());
+
+                int cost_id = folder.getCostId(selectedRow).get(5);
+                folder.updateETransport(cost_id, eet, set, tet, taux);
+                folder.updateTransport(selectedRow);
+                folder.updateTotal(selectedRow);
+                renderExternalTransport(selectedRow);
+                renderFoldersTable(folder.getAll());
+            }
+
+            EETrasportField.setEnabled(false);
+            SETransportField.setEnabled(false);
+            TETransportField.setEnabled(false);
+            TauxETransportField.setEnabled(false);
+        }
+    }//GEN-LAST:event_kButton18MouseClicked
+
+    private void kButton17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton17MouseClicked
+        EETrasportField.setEnabled(true);
+        SETransportField.setEnabled(true);
+        TETransportField.setEnabled(true);
+        TauxETransportField.setEnabled(true);
+    }//GEN-LAST:event_kButton17MouseClicked
+
+    private void TETransportFieldjTextField23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TETransportFieldjTextField23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TETransportFieldjTextField23ActionPerformed
+
+    private void totalETransportFieldjTextField22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalETransportFieldjTextField22ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalETransportFieldjTextField22ActionPerformed
+
+    private void SETransportFieldjTextField21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SETransportFieldjTextField21ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SETransportFieldjTextField21ActionPerformed
+
+    private void EETrasportFieldjTextField20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EETrasportFieldjTextField20ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EETrasportFieldjTextField20ActionPerformed
+
+    private void kButton21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton21MouseClicked
+        if(TCSCustomField.isEnabled()){
+            int n = JOptionPane.showConfirmDialog(
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+            if(n == 0){
+                Double tcs = Double.valueOf(TCSCustomField.getText());
+                Double tva = Double.valueOf(TVACustomField.getText());
+                Double qc = Double.valueOf(QCustomField.getText());
+                Double dc = Double.valueOf(DCustomField.getText());
+                Double cxc = Double.valueOf(CXCustomfield.getText());
+
+                int cost_id = folder.getCostId(selectedRow).get(2);
+                folder.updateCustomCost(cost_id, tcs, tva, qc, dc, cxc);
+                folder.updateTotal(selectedRow);
+                renderCustomCosts(selectedRow);
+                renderFoldersTable(folder.getAll());
+            }
+
+            CXCustomfield.setEnabled(false);
+            QCustomField.setEnabled(false);
+            TVACustomField.setEnabled(false);
+            TCSCustomField.setEnabled(false);
+            DCustomField.setEnabled(false);
+        }
+    }//GEN-LAST:event_kButton21MouseClicked
+
+    private void kButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton20ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kButton20ActionPerformed
+
+    private void kButton20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton20MouseClicked
+
+        CXCustomfield.setEnabled(true);
+        QCustomField.setEnabled(true);
+        TVACustomField.setEnabled(true);
+        TCSCustomField.setEnabled(true);
+        DCustomField.setEnabled(true);
+    }//GEN-LAST:event_kButton20MouseClicked
+
+    private void totalCXCustomFieldjTextField19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCXCustomFieldjTextField19ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalCXCustomFieldjTextField19ActionPerformed
+
+    private void CXCustomfieldjTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CXCustomfieldjTextField18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CXCustomfieldjTextField18ActionPerformed
+
+    private void totalCustomFieldjTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCustomFieldjTextField17ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalCustomFieldjTextField17ActionPerformed
+
+    private void QCustomFieldjTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QCustomFieldjTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_QCustomFieldjTextField12ActionPerformed
+
+    private void TCSCustomFieldjTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TCSCustomFieldjTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TCSCustomFieldjTextField5ActionPerformed
+
+    private void TVACustomFieldjTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TVACustomFieldjTextField9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TVACustomFieldjTextField9ActionPerformed
+
+    private void DCustomFieldjTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DCustomFieldjTextField11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DCustomFieldjTextField11ActionPerformed
 
     private void kButton16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton16MouseClicked
         if(TCTransitionField.isEnabled()){
             int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
             if(n == 0){
                 Double tc = Double.valueOf(TCTransitionField.getText());
                 Double ec = Double.valueOf(ECTransitionField.getText());
@@ -3401,7 +3731,7 @@ public class initialResources extends javax.swing.JPanel {
                 Double pc = Double.valueOf(PCTransitionField.getText());
                 Double vc = Double.valueOf(VCTransitionField.getText());
                 Double sil = Double.valueOf(SILCTransitionField.getText());
-                
+
                 int cost_id = folder.getCostId(selectedRow).get(4);
                 folder.updateTransitionCost(cost_id, tc, ec, epa, sil, pc, vc);
                 folder.updateTotal(selectedRow);
@@ -3417,23 +3747,76 @@ public class initialResources extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_kButton16MouseClicked
 
-    private void kButton13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton13MouseClicked
-        MissionCostVariableField.setEnabled(true);
-        clarqueCostVariableField.setEnabled(true);
-        employeeCostVariableField.setEnabled(true);
-        foodCostVariableField.setEnabled(true);
-        actsCostVariableField.setEnabled(true);
-        variableCostVariableField.setEnabled(true);
-    }//GEN-LAST:event_kButton13MouseClicked
+    private void kButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton15ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kButton15ActionPerformed
+
+    private void kButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton15MouseClicked
+        TCTransitionField.setEnabled(true);
+        ECTransitionField.setEnabled(true);
+        EPACTransitionField.setEnabled(true);
+        SILCTransitionField.setEnabled(true);
+        PCTransitionField.setEnabled(true);
+        VCTransitionField.setEnabled(true);
+        totalTransitionField.setEnabled(true);
+    }//GEN-LAST:event_kButton15MouseClicked
+
+    private void totalTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalTransitionFieldActionPerformed
+
+    private void TCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TCTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TCTransitionFieldActionPerformed
+
+    private void ECTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ECTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ECTransitionFieldActionPerformed
+
+    private void SILCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SILCTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SILCTransitionFieldActionPerformed
+
+    private void EPACTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EPACTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EPACTransitionFieldActionPerformed
+
+    private void PCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PCTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PCTransitionFieldActionPerformed
+
+    private void VCTransitionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VCTransitionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VCTransitionFieldActionPerformed
+
+    private void variableCostSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_variableCostSearchFieldKeyReleased
+
+    }//GEN-LAST:event_variableCostSearchFieldKeyReleased
+
+    private void variableCostSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_variableCostSearchFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_variableCostSearchFieldActionPerformed
+
+    private void variableCostSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusLost
+        if(variableCostSearchField.getText().equals("")){
+            variableCostSearchField.setText("recherché par N.Facture...");
+            variableCostSearchField.setForeground(new java.awt.Color(153,153,153));
+        }
+    }//GEN-LAST:event_variableCostSearchFieldFocusLost
+
+    private void variableCostSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusGained
+        variableCostSearchField.setText("");
+        variableCostSearchField.setForeground(new java.awt.Color(27,32,44));
+    }//GEN-LAST:event_variableCostSearchFieldFocusGained
 
     private void kButton14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton14MouseClicked
-        
+
         if(MissionCostVariableField.isEnabled()){
             int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
             if(n == 0){
                 Double m = Double.valueOf(MissionCostVariableField.getText());
                 Double c = Double.valueOf(clarqueCostVariableField.getText());
@@ -3441,7 +3824,7 @@ public class initialResources extends javax.swing.JPanel {
                 Double f = Double.valueOf(foodCostVariableField.getText());
                 Double a = Double.valueOf(actsCostVariableField.getText());
                 Double v = Double.valueOf(variableCostVariableField.getText());
-                
+
                 int cost_id = folder.getCostId(selectedRow).get(0);
                 folder.updateVariableCost(cost_id, m, c, e, f, a, v);
                 folder.updateTotal(selectedRow);
@@ -3455,20 +3838,71 @@ public class initialResources extends javax.swing.JPanel {
             actsCostVariableField.setEnabled(false);
             variableCostVariableField.setEnabled(false);
         }
-        
-        
-        
-        
-        
+
     }//GEN-LAST:event_kButton14MouseClicked
+
+    private void kButton13kButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton13kButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kButton13kButton4ActionPerformed
+
+    private void kButton13MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton13MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kButton13MouseEntered
+
+    private void kButton13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton13MouseClicked
+        MissionCostVariableField.setEnabled(true);
+        clarqueCostVariableField.setEnabled(true);
+        employeeCostVariableField.setEnabled(true);
+        foodCostVariableField.setEnabled(true);
+        actsCostVariableField.setEnabled(true);
+        variableCostVariableField.setEnabled(true);
+    }//GEN-LAST:event_kButton13MouseClicked
+
+    private void totalVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalVariableFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalVariableFieldActionPerformed
+
+    private void MissionCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MissionCostVariableFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MissionCostVariableFieldActionPerformed
+
+    private void clarqueCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clarqueCostVariableFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clarqueCostVariableFieldActionPerformed
+
+    private void foodCostVariableFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foodCostVariableFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_foodCostVariableFieldActionPerformed
+
+    private void employeeCostVariableFieldjTextField27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeCostVariableFieldjTextField27ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_employeeCostVariableFieldjTextField27ActionPerformed
+
+    private void actsCostVariableFieldjTextField26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actsCostVariableFieldjTextField26ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actsCostVariableFieldjTextField26ActionPerformed
+
+    private void variableCostVariableFieldjTextField25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_variableCostVariableFieldjTextField25ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_variableCostVariableFieldjTextField25ActionPerformed
+
+    private void kButton25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton25MouseClicked
+        RDBancField.setEnabled(true);
+        SCBancField.setEnabled(true);
+        DCBancField.setEnabled(true);
+        DD1BancField.setEnabled(true);
+        DD2BancField.setEnabled(true);
+        DD3BancField.setEnabled(true);
+        CCBancField.setEnabled(true);
+    }//GEN-LAST:event_kButton25MouseClicked
 
     private void kButton24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton24MouseClicked
         if(RDBancField.isEnabled()){
             int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
+                this,
+                "Avez-vous sur d'avoir terminé cette opération",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
             if(n == 0){
                 Double rd = Double.valueOf(RDBancField.getText());
                 Double sc = Double.valueOf(SCBancField.getText());
@@ -3477,8 +3911,7 @@ public class initialResources extends javax.swing.JPanel {
                 Double dd2 = Double.valueOf(DD2BancField.getText());
                 Double dd3 = Double.valueOf(DD3BancField.getText());
                 Double cc = Double.valueOf(CCBancField.getText());
-               
-                
+
                 int cost_id = folder.getCostId(selectedRow).get(1);
                 folder.updateBancCost(cost_id, rd, sc, dc, dd1, dd2, dd3, cc);
                 folder.updateTotal(selectedRow);
@@ -3495,185 +3928,123 @@ public class initialResources extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_kButton24MouseClicked
 
+    private void totalBancFieldjTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalBancFieldjTextField16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalBancFieldjTextField16ActionPerformed
+
+    private void RDBancFieldjTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDBancFieldjTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RDBancFieldjTextField1ActionPerformed
+
+    private void SCBancFieldjTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SCBancFieldjTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SCBancFieldjTextField4ActionPerformed
+
+    private void DD1BancFieldjTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD1BancFieldjTextField8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DD1BancFieldjTextField8ActionPerformed
+
+    private void DCBancFieldjTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DCBancFieldjTextField10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DCBancFieldjTextField10ActionPerformed
+
+    private void DD2BancFieldjTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD2BancFieldjTextField13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DD2BancFieldjTextField13ActionPerformed
+
+    private void DD3BancFieldjTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DD3BancFieldjTextField14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DD3BancFieldjTextField14ActionPerformed
+
+    private void CCBancFieldjTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CCBancFieldjTextField15ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CCBancFieldjTextField15ActionPerformed
+
     private void foldersTableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foldersTableMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_foldersTableMouseEntered
 
-    private void kButton13MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton13MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kButton13MouseEntered
+    private void foldersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foldersTableMouseClicked
+        selectedRow = Integer.parseInt(foldersTable.getValueAt(foldersTable.getSelectedRow(),0).toString());
+        System.out.println(selectedRow);
+        renderVariableCosts(selectedRow);
+        renderBancCosts(selectedRow);
+        renderTransitionCosts(selectedRow);
+        renderCustomCosts(selectedRow);
+        renderExternalTransport(selectedRow);
+        renderInternalTransport(selectedRow);
 
-    private void kButton25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton25MouseClicked
-        RDBancField.setEnabled(true);
-        SCBancField.setEnabled(true);
-        DCBancField.setEnabled(true);
-        DD1BancField.setEnabled(true);
-        DD2BancField.setEnabled(true);
-        DD3BancField.setEnabled(true);
-        CCBancField.setEnabled(true);
-    }//GEN-LAST:event_kButton25MouseClicked
+    }//GEN-LAST:event_foldersTableMouseClicked
 
-    private void kButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton15MouseClicked
-        TCTransitionField.setEnabled(true);
-        ECTransitionField.setEnabled(true);
-        EPACTransitionField.setEnabled(true);
-        SILCTransitionField.setEnabled(true);
-        PCTransitionField.setEnabled(true);
-        VCTransitionField.setEnabled(true);
-        totalTransitionField.setEnabled(true);
-    }//GEN-LAST:event_kButton15MouseClicked
+    private void foldersSearchComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foldersSearchComboActionPerformed
+        foldersSearchField.setText("recherché par "+ foldersSearchCombo.getSelectedItem().toString()+"...");
+    }//GEN-LAST:event_foldersSearchComboActionPerformed
 
-    private void kButton20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton20MouseClicked
-        
-        CXCustomfield.setEnabled(true);
-        QCustomField.setEnabled(true);
-        TVACustomField.setEnabled(true);
-        TCSCustomField.setEnabled(true);
-        DCustomField.setEnabled(true);
-    }//GEN-LAST:event_kButton20MouseClicked
-
-    private void kButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton20ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kButton20ActionPerformed
-
-    private void kButton21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton21MouseClicked
-        if(TCSCustomField.isEnabled()){
-            int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
-            if(n == 0){
-                Double tcs = Double.valueOf(TCSCustomField.getText());
-                Double tva = Double.valueOf(TVACustomField.getText());
-                Double qc = Double.valueOf(QCustomField.getText());
-                Double dc = Double.valueOf(DCustomField.getText());
-                Double cxc = Double.valueOf(CXCustomfield.getText());
-               
-               
-               
-                int cost_id = folder.getCostId(selectedRow).get(2);
-                folder.updateCustomCost(cost_id, tcs, tva, qc, dc, cxc);
-                folder.updateTotal(selectedRow);
-                renderCustomCosts(selectedRow);
-                renderFoldersTable(folder.getAll());
-            }
-            
-            CXCustomfield.setEnabled(false);
-            QCustomField.setEnabled(false);
-            TVACustomField.setEnabled(false);
-            TCSCustomField.setEnabled(false);
-            DCustomField.setEnabled(false);
+    private void foldersSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_foldersSearchFieldKeyReleased
+        if(foldersSearchField.getText().equals("")){
+            renderFoldersTable(folder.getAll());
+        }else if(foldersSearchCombo.getSelectedItem().equals("Id") && !foldersSearchField.getText().equals("")){
+            int researched = Integer.parseInt(foldersSearchField.getText());
+            renderFoldersTable(folder.Search("Id", researched));
+        }else{
+            String researched = foldersSearchField.getText();
+            String key = foldersSearchCombo.getSelectedItem().toString();
+            renderFoldersTable(folder.Search(key, researched));
         }
-    }//GEN-LAST:event_kButton21MouseClicked
+    }//GEN-LAST:event_foldersSearchFieldKeyReleased
 
-    private void kButton17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton17MouseClicked
-        EETrasportField.setEnabled(true);
-        SETransportField.setEnabled(true);
-        TETransportField.setEnabled(true);
-        TauxETransportField.setEnabled(true);
-    }//GEN-LAST:event_kButton17MouseClicked
+    private void foldersSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foldersSearchFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_foldersSearchFieldActionPerformed
 
-    private void kButton18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton18MouseClicked
-        if(EETrasportField.isEnabled()){
-            int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
-            if(n == 0){
-                Double eet = Double.valueOf(EETrasportField.getText());
-                Double set = Double.valueOf(SETransportField.getText());
-                Double tet = Double.valueOf(TETransportField.getText());
-                Double taux = Double.valueOf(TauxETransportField.getText());
-                
-               
-               
-                
-                int cost_id = folder.getCostId(selectedRow).get(5);
-                folder.updateETransport(cost_id, eet, set, tet, taux);
-                folder.updateTransport(selectedRow);
-                folder.updateTotal(selectedRow);
-                renderExternalTransport(selectedRow);
-                renderFoldersTable(folder.getAll());
-            }
-            
-            EETrasportField.setEnabled(false);
-            SETransportField.setEnabled(false);
-            TETransportField.setEnabled(false);
-            TauxETransportField.setEnabled(false);
+    private void foldersSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_foldersSearchFieldFocusLost
+        if(foldersSearchField.getText().equals("")){
+            foldersSearchField.setText("recherché par "+foldersSearchCombo.getSelectedItem().toString()+"...");
+            foldersSearchField.setForeground(new java.awt.Color(153,153,153));
         }
-    }//GEN-LAST:event_kButton18MouseClicked
+    }//GEN-LAST:event_foldersSearchFieldFocusLost
 
-    private void kButton19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton19MouseClicked
-        ITTransportField.setEnabled(true);
-        ICTransportField.setEnabled(true);
-        IVTransportField.setEnabled(true);
-        
-    }//GEN-LAST:event_kButton19MouseClicked
+    private void foldersSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_foldersSearchFieldFocusGained
+        foldersSearchField.setText("");
+        foldersSearchField.setForeground(new java.awt.Color(27,32,44));
+    }//GEN-LAST:event_foldersSearchFieldFocusGained
 
-    private void kButton26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton26MouseClicked
-        if(ITTransportField.isEnabled()){
-            int n = JOptionPane.showConfirmDialog(
-                    this,
-                    "Avez-vous sur d'avoir terminé cette opération",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
-            if(n == 0){
-                Double it = Double.valueOf(ITTransportField.getText());
-                Double ic = Double.valueOf(ICTransportField.getText());
-                Double iv = Double.valueOf(IVTransportField.getText());
-                
-          
-               
-               
-                
-                int cost_id = folder.getCostId(selectedRow).get(6);
-                folder.updateITransport(cost_id, it, ic, iv);
-                folder.updateTransport(selectedRow);
-                folder.updateTotal(selectedRow);
-                renderInternalTransport(selectedRow);
-                renderFoldersTable(folder.getAll());
-            }
-            
-            ITTransportField.setEnabled(false);
-            ICTransportField.setEnabled(false);
-            IVTransportField.setEnabled(false);
-            
+    private void kButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton1MouseClicked
+        addFolderDialog.setVisible(true);
+    }//GEN-LAST:event_kButton1MouseClicked
+
+    private void irSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_irSearchFieldKeyReleased
+        if(irSearchField.getText().equals("")){
+            renderIRTable(ir.getAll());
+        }else if(irSearchCombo.getSelectedItem().equals("Id") && !irSearchField.getText().equals("")){
+            int researched = Integer.parseInt(irSearchField.getText());
+            renderIRTable(ir.Search("Id", researched));
+        }else{
+            String researched = irSearchField.getText();
+            String key = irSearchCombo.getSelectedItem().toString();
+            renderIRTable(ir.Search(key, researched));
         }
-    }//GEN-LAST:event_kButton26MouseClicked
+    }//GEN-LAST:event_irSearchFieldKeyReleased
 
-    private void kButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton2MouseClicked
-        addIRDialog.setVisible(true);
-    }//GEN-LAST:event_kButton2MouseClicked
+    private void irTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_irTableMouseClicked
+        irFoldersDialog.setVisible(true);
+    }//GEN-LAST:event_irTableMouseClicked
 
-    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
+    private void irSearchField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_irSearchField1FocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_kButton2ActionPerformed
+    }//GEN-LAST:event_irSearchField1FocusGained
 
-    private void jTextField46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField46ActionPerformed
+    private void irSearchField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_irSearchField1FocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField46ActionPerformed
+    }//GEN-LAST:event_irSearchField1FocusLost
 
-    private void jTextField47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField47ActionPerformed
+    private void irSearchField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irSearchField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField47ActionPerformed
+    }//GEN-LAST:event_irSearchField1ActionPerformed
 
-    private void jTextField48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField48ActionPerformed
+    private void irSearchField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_irSearchField1KeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField48ActionPerformed
-
-    private void kButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton7MouseClicked
-        addIRDialog.dispose();
-    }//GEN-LAST:event_kButton7MouseClicked
-
-    private void kButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kButton7ActionPerformed
-
-    private void jTextField49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField49ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField49ActionPerformed
+    }//GEN-LAST:event_irSearchField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -3706,7 +4077,17 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JTextField actsCostVariableField;
     private javax.swing.JDialog addFolderDialog;
     private javax.swing.JLabel addFolderErrorLabel;
+    private javax.swing.JTextArea addIRDesField;
     private javax.swing.JDialog addIRDialog;
+    private javax.swing.JLabel addIRErrorLabel;
+    private javax.swing.JTextField addIRFolderField;
+    private javax.swing.JTextField addIRPriceField;
+    private javax.swing.JTextField addIRQField;
+    private javax.swing.JTextField addIRQOSField;
+    private javax.swing.JTextField addIRRefField;
+    private javax.swing.JTextField addIRSQField;
+    private javax.swing.JTextField addIRTauxField;
+    private javax.swing.JComboBox<String> addIRuntCombo;
     private javax.swing.JTextField bancField;
     private javax.swing.JTextField billNumberField;
     private javax.swing.JTextField clarqueCostVariableField;
@@ -3716,10 +4097,14 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JTextField foldersSearchField;
     private javax.swing.JTable foldersTable;
     private javax.swing.JTextField foodCostVariableField;
-    private javax.swing.JTextField initialeResourcesSearch;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JDialog irFoldersDialog;
+    private javax.swing.JTable irFoldersTable;
+    private javax.swing.JComboBox<String> irSearchCombo;
+    private javax.swing.JTextField irSearchField;
+    private javax.swing.JTextField irSearchField1;
+    private javax.swing.JTable irTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
@@ -3802,6 +4187,7 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel53;
@@ -3812,6 +4198,7 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel89;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
@@ -3825,6 +4212,8 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
@@ -3849,29 +4238,26 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel65;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator23;
     private javax.swing.JSeparator jSeparator24;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField36;
-    private javax.swing.JTextField jTextField44;
-    private javax.swing.JTextField jTextField45;
-    private javax.swing.JTextField jTextField46;
-    private javax.swing.JTextField jTextField47;
-    private javax.swing.JTextField jTextField48;
-    private javax.swing.JTextField jTextField49;
     private com.k33ptoo.components.KButton kButton1;
     private com.k33ptoo.components.KButton kButton10;
     private com.k33ptoo.components.KButton kButton13;

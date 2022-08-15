@@ -29,17 +29,58 @@ public class maindb {
         if (rs != null) {
         try {
             rs.close();
-        } catch (SQLException e) { /* Ignored */}
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
     }
     if (ps != null) {
         try {
             ps.close();
-        } catch (SQLException e) { /* Ignored */}
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
     }
     if (conn != null) {
         try {
             conn.close();
-        } catch (SQLException e) { /* Ignored */}
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
+    }
+    
+    }
+     public static void closeConnection( ResultSet rs ){
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) { 
+                e.printStackTrace();
+            }
+        }
+    
+    }
+    
+    
+      public static void closeConnection(PreparedStatement ps){
+        
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) { 
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+      public static void closeConnection(Connection conn){
+        
+    if (conn != null) {
+        try {
+            conn.close();
+        } catch (SQLException e) { 
+            e.printStackTrace();
+        }
     }
     
     }
