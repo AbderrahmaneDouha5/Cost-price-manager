@@ -228,7 +228,7 @@ public class Folder {
        double transportTotal = 0;
        double transitionTotal = 0;
         try{
-            ResultSet rs = getAll();
+            ResultSet rs = Search("Id",id);
             while(rs.next()){
                 total = rs.getDouble("f.total");
                 variableTotal = rs.getDouble("vc.total");
