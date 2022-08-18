@@ -14,7 +14,7 @@ public class PrixDrevien {
     
     public static void main(String[] args) {
         FlatLightLaf.setup();
-        new Home().setVisible(true);
+        new Home("test").setVisible(true);
         
     }
 }

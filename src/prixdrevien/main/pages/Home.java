@@ -2,20 +2,26 @@
 package prixdrevien.main.pages;
 
 
-import prixdrevien.db.components.Folder;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import prixdrevien.main.JpanelLoader;
 
 public class Home extends javax.swing.JFrame {
     
-    products p = new products();
-    initialResources ir = new initialResources();
+    products p;
+    initialResources ir;
     productionLine pl = new productionLine();
     main m = new main();
     
-    public Home() {
+    public Home(String db) {
         initComponents();
         JpanelLoader.jPanelLoader(contentPanel, m);
-       
+        ir = new initialResources(db);
+        p = new products(db);
     }
 
  
