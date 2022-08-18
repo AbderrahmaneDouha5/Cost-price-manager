@@ -1,12 +1,13 @@
-drop database admin;
-create database admin;
-use admin ;
+
+drop database test;
+create database test;
+use test ;
 
 CREATE TABLE i_r(
 id INT auto_increment,
-nom VARCHAR(50),
-referenc VARCHAR(20),
-designation VARCHAR(150),
+referencee VARCHAR(20),
+descriptionne VARCHAR(500),
+unit VARCHAR(10),
 PRIMARY KEY(id)
 );
 
@@ -99,7 +100,7 @@ id INT auto_increment,
 n_facture VARCHAR(20),
 banc VARCHAR(50) DEFAULT "",
 porte VARCHAR(50) DEFAULT "",
-datetim VARCHAR(50) DEFAULT "",
+datetim DATETIME(6),
 total DOUBLE DEFAULT 0,
 transport_id INT,
 transit_id INT,
@@ -119,14 +120,48 @@ CONSTRAINT FK_folders_VARIABLE FOREIGN KEY(variable_id)
 REFERENCES variable_costs(id)
 );
 
-CREATE TABLE folders_ir_membership(
+CREATE TABLE fournisseurs(
 id INT auto_increment,
-folder_id INT,
-i_r_id INT,
-PRIMARY KEY(id),
-CONSTRAINT FK_FOLDERS_MEMBERSHIP FOREIGN KEY(folder_id)
-REFERENCES folders(id),
-CONSTRAINT FK_IR_MEMBERSHIP FOREIGN KEY(i_r_id)
-REFERENCES i_r(id)
+nom VARCHAR(20),
+pay VARCHAR(50),
+compagnie VARCHAR(50),
+PRIMARY KEY(id)
 );
+
+CREATE TABLE ir_register_dachats(
+id INT auto_increment,
+i_r_id INT,
+folder_id INT,
+datetim DATETIME(6),
+fournisseur_id INT,
+s_amount DOUBLE DEFAULT 0,
+amount_on_s DOUBLE DEFAULT 0,
+amount DOUBLE DEFAULT 0,
+unit_priceda DOUBLE DEFAULT 0,
+unit_price DOUBLE DEFAULT 0,
+taux DOUBLE DEFAULT 0,
+total DOUBLE DEFAULT 0,
+PRIMARY KEY(id),
+CONSTRAINT FK_FOLDERS_REGISTERDACHATS FOREIGN KEY(folder_id)
+REFERENCES folders(id),
+CONSTRAINT FK_IR_REGISTERDACHATS FOREIGN KEY(i_r_id)
+REFERENCES i_r(id),
+CONSTRAINT FK_FOURNISSEURS_REGISTERDACHATS FOREIGN KEY(fournisseur_id)
+REFERENCES fournisseurs(id)
+);
+
+
+CREATE TABLE employee(
+id INT auto_increment,
+nom VARCHAR(50),
+phone_number VARCHAR(14),
+begining_date DATE,
+salary DOUBLE DEFAULT 0,
+post VARCHAR(50),
+
+PRIMARY KEY(id)
+);
+
+
+
 
