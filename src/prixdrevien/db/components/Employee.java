@@ -78,4 +78,37 @@ public class Employee {
                 + "WHERE "+key+" = '"+nom+"' ");
 
     }
+    
+    public  double getEmployeeTotal(){
+        rs = iss.get("SELECT SUM(salary) AS total FROM employee;");
+        double total = 0.0;
+        try{
+            while(rs.next()){
+                total = rs.getDouble("total");
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+           maindb.closeConnection(rs);
+       }
+        return total;
+    }
+    public  int getEmployeeCount(){
+        rs = iss.get("SELECT COUNT(id) AS count FROM employee;");
+        int count = 0;
+        try{
+            while(rs.next()){
+                count = rs.getInt("count");
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+           maindb.closeConnection(rs);
+       }
+        return count;
+    }
 }
