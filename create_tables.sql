@@ -1,4 +1,6 @@
 
+
+
 drop database test;
 create database test;
 use test ;
@@ -162,6 +164,28 @@ post VARCHAR(50),
 PRIMARY KEY(id)
 );
 
+CREATE TABLE products(
+id INT auto_increment,
+referencee VARCHAR(50),
+descriptionne VARCHAR(14),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE factory(
+id INT auto_increment,
+
+daily_p INT DEFAULT 0,
+yearly_p INT DEFAULT 0,
+employee_n INT DEFAULT 0,
+e_c DOUBLE DEFAULT 0,
+f_c DOUBLE DEFAULT 0,
+rep_c DOUBLE DEFAULT 0,
+r_c DOUBLE DEFAULT 0,
+PRIMARY KEY(id)
+);
+
+INSERT INTO factory()
+VALUES();
 
 
 
