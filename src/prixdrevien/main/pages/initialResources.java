@@ -766,8 +766,6 @@ public class initialResources extends javax.swing.JPanel {
         jLabel99 = new javax.swing.JLabel();
         jLabel100 = new javax.swing.JLabel();
         jLabel101 = new javax.swing.JLabel();
-        variableCostSearchField = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jPanel44 = new javax.swing.JPanel();
         jPanel45 = new javax.swing.JPanel();
         jLabel102 = new javax.swing.JLabel();
@@ -1191,7 +1189,6 @@ public class initialResources extends javax.swing.JPanel {
         jScrollPane6.setBorder(null);
 
         billNumberList.setBackground(new java.awt.Color(27, 32, 44));
-        billNumberList.setBorder(null);
         billNumberList.setForeground(new java.awt.Color(255, 255, 255));
         billNumberList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         billNumberList.setAlignmentX(1.0F);
@@ -1213,7 +1210,6 @@ public class initialResources extends javax.swing.JPanel {
         jScrollPane10.setBorder(null);
 
         fourList.setBackground(new java.awt.Color(27, 32, 44));
-        fourList.setBorder(null);
         fourList.setForeground(new java.awt.Color(255, 255, 255));
         fourList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         fourList.setAlignmentX(1.0F);
@@ -1544,7 +1540,6 @@ public class initialResources extends javax.swing.JPanel {
         irFoldersTable.setAutoscrolls(false);
         irFoldersTable.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         irFoldersTable.setSelectionBackground(new java.awt.Color(27, 32, 44));
-        irFoldersTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         irFoldersTable.setShowGrid(true);
         irFoldersTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(irFoldersTable);
@@ -1723,7 +1718,6 @@ public class initialResources extends javax.swing.JPanel {
         jScrollPane7.setBorder(null);
 
         buyBillNumberList.setBackground(new java.awt.Color(27, 32, 44));
-        buyBillNumberList.setBorder(null);
         buyBillNumberList.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         buyBillNumberList.setForeground(new java.awt.Color(255, 255, 255));
         buyBillNumberList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -1754,7 +1748,6 @@ public class initialResources extends javax.swing.JPanel {
         jScrollPane11.setBorder(null);
 
         buyFourList.setBackground(new java.awt.Color(27, 32, 44));
-        buyFourList.setBorder(null);
         buyFourList.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         buyFourList.setForeground(new java.awt.Color(255, 255, 255));
         buyFourList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -2413,7 +2406,7 @@ public class initialResources extends javax.swing.JPanel {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2439,7 +2432,6 @@ public class initialResources extends javax.swing.JPanel {
         irTable.setMinimumSize(new java.awt.Dimension(1500, 900));
         irTable.setPreferredSize(new java.awt.Dimension(1500, 900));
         irTable.setSelectionBackground(new java.awt.Color(27, 32, 44));
-        irTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         irTable.setShowGrid(true);
         irTable.getTableHeader().setReorderingAllowed(false);
         irTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2496,7 +2488,6 @@ public class initialResources extends javax.swing.JPanel {
         fourTable.setMinimumSize(new java.awt.Dimension(1500, 900));
         fourTable.setPreferredSize(new java.awt.Dimension(1500, 900));
         fourTable.setSelectionBackground(new java.awt.Color(27, 32, 44));
-        fourTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         fourTable.setShowGrid(true);
         fourTable.getTableHeader().setReorderingAllowed(false);
         fourTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2733,7 +2724,6 @@ public class initialResources extends javax.swing.JPanel {
         foldersTable.setDoubleBuffered(true);
         foldersTable.setMaximumSize(new java.awt.Dimension(1500, 900));
         foldersTable.setSelectionBackground(new java.awt.Color(27, 32, 44));
-        foldersTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         foldersTable.setShowGrid(true);
         foldersTable.getTableHeader().setReorderingAllowed(false);
         foldersTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2874,7 +2864,7 @@ public class initialResources extends javax.swing.JPanel {
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel37Layout.createSequentialGroup()
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 25, Short.MAX_VALUE))
         );
         jPanel37Layout.setVerticalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3093,7 +3083,7 @@ public class initialResources extends javax.swing.JPanel {
                         .addComponent(kButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(kButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
                         .addComponent(totalBancField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3385,31 +3375,6 @@ public class initialResources extends javax.swing.JPanel {
         jLabel101.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel101.setText("DA");
 
-        variableCostSearchField.setForeground(new java.awt.Color(153, 153, 153));
-        variableCostSearchField.setText("recherché par n.facture...");
-        variableCostSearchField.setPreferredSize(new java.awt.Dimension(250, 22));
-        variableCostSearchField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                variableCostSearchFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                variableCostSearchFieldFocusLost(evt);
-            }
-        });
-        variableCostSearchField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                variableCostSearchFieldActionPerformed(evt);
-            }
-        });
-        variableCostSearchField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                variableCostSearchFieldKeyReleased(evt);
-            }
-        });
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prixdrevien/images/211818_search_icon(6).png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
         jPanel43.setLayout(jPanel43Layout);
         jPanel43Layout.setHorizontalGroup(
@@ -3418,16 +3383,8 @@ public class initialResources extends javax.swing.JPanel {
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel43Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel43Layout.createSequentialGroup()
-                                .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel43Layout.createSequentialGroup()
-                                .addGap(0, 258, Short.MAX_VALUE)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(variableCostSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(87, 87, 87)))
+                        .addComponent(jLabel91, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
                         .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel43Layout.createSequentialGroup()
                                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -3479,10 +3436,7 @@ public class initialResources extends javax.swing.JPanel {
             jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel43Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel93, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(variableCostSearchField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MissionCostVariableField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3727,7 +3681,7 @@ public class initialResources extends javax.swing.JPanel {
                 .addGroup(jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel45Layout.createSequentialGroup()
                         .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
                         .addGroup(jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel45Layout.createSequentialGroup()
                                 .addGroup(jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -3838,7 +3792,7 @@ public class initialResources extends javax.swing.JPanel {
         jPanel44Layout.setHorizontalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel44Layout.createSequentialGroup()
-                .addGap(350, 350, 350)
+                .addGap(317, 317, 317)
                 .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(350, 350, 350))
         );
@@ -4154,7 +4108,7 @@ public class initialResources extends javax.swing.JPanel {
                         .addComponent(jLabel202, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(totalCXCustomField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel214)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(kButton20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(kButton21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -4340,7 +4294,7 @@ public class initialResources extends javax.swing.JPanel {
                             .addComponent(jLabel125)
                             .addComponent(jLabel126)
                             .addComponent(jLabel127))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel49Layout.setVerticalGroup(
             jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4367,7 +4321,7 @@ public class initialResources extends javax.swing.JPanel {
                 .addGroup(jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel124, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TauxETransportField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jSeparator16, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -4541,7 +4495,7 @@ public class initialResources extends javax.swing.JPanel {
                     .addComponent(jLabel131, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IVTransportField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel143))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addComponent(jSeparator17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -4671,7 +4625,6 @@ public class initialResources extends javax.swing.JPanel {
         employeeTable.setDoubleBuffered(true);
         employeeTable.setMaximumSize(new java.awt.Dimension(1500, 900));
         employeeTable.setSelectionBackground(new java.awt.Color(51, 0, 51));
-        employeeTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         employeeTable.setShowGrid(true);
         employeeTable.getTableHeader().setReorderingAllowed(false);
         employeeTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -4712,7 +4665,7 @@ public class initialResources extends javax.swing.JPanel {
                 .addComponent(employeeSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71)
                 .addComponent(kButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addComponent(countEmployeeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -4752,7 +4705,7 @@ public class initialResources extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1505, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1534, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -4982,6 +4935,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderInternalTransport(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAll());
             }
 
             ITTransportField.setEnabled(false);
@@ -5038,6 +4992,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderExternalTransport(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAll());
             }
 
             EETrasportField.setEnabled(false);
@@ -5090,6 +5045,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderCustomCosts(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAllDesc());
             }
 
             CXCustomfield.setEnabled(false);
@@ -5162,6 +5118,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderTransitionCosts(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAllDesc());
             }
             TCTransitionField.setEnabled(false);
             ECTransitionField.setEnabled(false);
@@ -5214,26 +5171,6 @@ public class initialResources extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_VCTransitionFieldActionPerformed
 
-    private void variableCostSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_variableCostSearchFieldKeyReleased
-
-    }//GEN-LAST:event_variableCostSearchFieldKeyReleased
-
-    private void variableCostSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_variableCostSearchFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_variableCostSearchFieldActionPerformed
-
-    private void variableCostSearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusLost
-        if(variableCostSearchField.getText().equals("")){
-            variableCostSearchField.setText("recherché par N.Facture...");
-            variableCostSearchField.setForeground(new java.awt.Color(153,153,153));
-        }
-    }//GEN-LAST:event_variableCostSearchFieldFocusLost
-
-    private void variableCostSearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_variableCostSearchFieldFocusGained
-        variableCostSearchField.setText("");
-        variableCostSearchField.setForeground(new java.awt.Color(27,32,44));
-    }//GEN-LAST:event_variableCostSearchFieldFocusGained
-
     private void kButton14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton14MouseClicked
 
         if(MissionCostVariableField.isEnabled()){
@@ -5256,6 +5193,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderVariableCosts(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAllDesc());
             }
             MissionCostVariableField.setEnabled(false);
             clarqueCostVariableField.setEnabled(false);
@@ -5344,6 +5282,7 @@ public class initialResources extends javax.swing.JPanel {
                 ir.updateTotal(folderSelectedRow);
                 renderBancCosts(folderSelectedRow);
                 renderFoldersTable(folder.getAll());
+                renderIRTable(ir.getAllDesc());
             }
             RDBancField.setEnabled(false);
             SCBancField.setEnabled(false);
@@ -5442,7 +5381,7 @@ public class initialResources extends javax.swing.JPanel {
 
     private void irSearchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_irSearchFieldKeyReleased
         if(irSearchField.getText().equals("")){
-            renderIRTable(ir.getAll());
+            renderIRTable(ir.getAllDesc());
         }else if(irSearchCombo.getSelectedItem().equals("Id") && !irSearchField.getText().equals("")){
             int researched = Integer.parseInt(irSearchField.getText());
             renderIRTable(ir.Search("Id", researched));
@@ -6162,7 +6101,6 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel89;
@@ -6283,7 +6221,6 @@ public class initialResources extends javax.swing.JPanel {
     private javax.swing.JTextField totalITransportField;
     private javax.swing.JTextField totalTransitionField;
     private javax.swing.JTextField totalVariableField;
-    private javax.swing.JTextField variableCostSearchField;
     private javax.swing.JTextField variableCostVariableField;
     private javax.swing.JComboBox<String> yearEmployeeCombo;
     // End of variables declaration//GEN-END:variables

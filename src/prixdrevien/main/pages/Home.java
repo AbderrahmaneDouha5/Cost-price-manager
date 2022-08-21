@@ -14,14 +14,14 @@ public class Home extends javax.swing.JFrame {
     
     products p;
     initialResources ir;
-    productionLine pl = new productionLine();
     main m = new main();
-    
+    usine u;
     public Home(String db) {
         initComponents();
         JpanelLoader.jPanelLoader(contentPanel, m);
         ir = new initialResources(db);
         p = new products(db);
+        u = new usine(db);
     }
 
  
@@ -41,8 +41,6 @@ public class Home extends javax.swing.JFrame {
         setTitle("Prix De Revien");
         setBounds(new java.awt.Rectangle(200, 100, 0, 0));
         setMinimumSize(new java.awt.Dimension(1500, 900));
-        setPreferredSize(new java.awt.Dimension(1550, 900));
-        setResizable(false);
         setSize(new java.awt.Dimension(1550, 900));
 
         rootPanel.setLayout(new java.awt.BorderLayout());
@@ -150,7 +148,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_initialResourcesButtonMouseClicked
 
     private void productionLineButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productionLineButtonMouseClicked
-        JpanelLoader.jPanelLoader(contentPanel, pl);
+        JpanelLoader.jPanelLoader(contentPanel, u);
     }//GEN-LAST:event_productionLineButtonMouseClicked
 
     private void homeButtonComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_homeButtonComponentHidden
